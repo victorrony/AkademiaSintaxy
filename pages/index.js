@@ -1,12 +1,10 @@
 import BannerHero from "../components/BannerHero";
-import CardItem from "../components/CardItem";
-import Header from "../components/Menu";
 import ProductCard from "../components/ProductCard";
 import Wrapper from "../components/Wrapper";
 
+import data from "../utils/data";
+
 const products = [
-   { src: "/image-product-3.jpg", alt: "Image 3" },
-   { src: "/product-1.webp", alt: "Image 4" },
    { src: "/slide-1.png", alt: "Image 4" },
    { src: "/slide-2.png", alt: "Image 4" },
    { src: "/slide-3.png", alt: "Image 4" },
@@ -23,12 +21,12 @@ export default function Home() {
                </div>
                <div className="text-md md:text-xl">
                   These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer
-                  sole, they’ll withstand everything the weather can offer.
+                  sole, they’ll withstand everything the weather can offer. 
                </div>
             </div>
-            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-14 px-5 md:px-0 ">
-               {products?.map((product) => (
-                  <ProductCard key={product?._id} product={product} />
+            <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-14 px-5 md:px-0 ">
+               {data.map((product) => (
+                  <ProductCard key={product._id} data={product} />
                ))}
             </div>
          </Wrapper>

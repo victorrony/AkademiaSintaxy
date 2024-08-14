@@ -1,29 +1,48 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { getDiscountedPricePercentage } from "../utils/helper";
+import { CartItem } from "./CartItem";
 
-const ProductCard = ({ data: { attributes: p, id } }) => {
+const ProductCard = ({ data }) => {
+   const [isOpen, setIsOpen] = useState(false);
+   const discountedPrice = data.price - (data.price * data.discountPercentage) / 100;
+   const discountedPricePercentage = getDiscountedPricePercentage(data.price, discountedPrice);
+
    return (
-      <Link href={""} className="transform overflow-hidden bg-white duration-200 hover:scale-105 cursor-pointer ">
-         <Image width={500} height={500} src={""} alt={""} />
-
-         <div className="p-4 text-black/[0.9] ">
-            <h2 className="text-lg font-medium ">{p.name}</h2>
-            <div className="flex items-center text-black/[0.5]">
-               <p className="mr-2 text-lg font-semibold">&#8377{p.price}</p>
-               {p.original_price && (
-                  <>
-                     <p className="text-base font-medium line-through">&#8377;{p.original_price}</p>
-                     <p className="ml-auto text-base font-medium text-green-500 ">
-                        {" "}
-                        {getDiscountedPricePercentage(p.original_price, p.price)}% off
-                     </p>
-                  </>
-               )}
-            </div>
+      <div className="bg-white shadow rounded overflow-hidden hover:scale-105 transition-all duration-200 ease-in-out ">
+         <div className="">
+            <CartItem
+               isOpen={isOpen}
+               closeModel={() => setIsOpen(false)}
+               searchShoes={data}
+               className="flex justify-center items-center z-20"
+            />
          </div>
-      </Link>
+         <button onClick={() => setIsOpen(true)} className="w-full">
+            <div className="bg-white shadow rounded overflow-hidden hover:scale-105 transition-all duration-200 ease-in-out "></div>
+            <div className="relative">
+               <div className="w-full h-72 md:h-80 group-hover:opacity-75  "></div>
+               <Image
+                  src={data.image}
+                  alt={data.name}
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full object-cover"
+               />
+            </div>
+            <div className="flex justify-between p-4">
+               <div className="flex flex-col">
+                  <p className="text-lg font-bold">{data.name}</p>
+               </div>
+               <div>
+                  <p className="text-lg font-bold text-orange-500">${discountedPrice}</p>
+                  <p className="text-gray-500 line-through">${data.price}</p>
+                  <p className="text-gray-500">{discountedPricePercentage}% off</p>
+               </div>
+            </div>
+         </button>
+      </div>
    );
 };
 

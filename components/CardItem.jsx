@@ -1,9 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { HiOutlineShoppingCart } from "react-icons/hi";
-import DetailsCarousel from "./BannerHero";
-import Card from "./ProductCard";
-import Menu from "./Menu";
+
 
 
 

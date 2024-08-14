@@ -13,6 +13,7 @@ const Nav = () => {
    const [showCatMenu, serShowCatMenu] = useState(false);
    const [mobileMenu, setMobileMenu] = useState(false);
    const [show, setShow] = useState(false);
+   const [showCart, setShowCart] = useState(false);
 
    const { cartItems } = useSelector((state) => state.cart);
 
@@ -42,7 +43,7 @@ const Nav = () => {
             )}
 
             <div className="flex items-center gap-2 text-black">
-               <Link href="/cart">
+               <button onClick={() => setShowCart(true) }>
                   <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
                      <BsCart className="text-[15px] md:text-[20px]" />
                      {cartItems.length > 0 && (
@@ -51,7 +52,8 @@ const Nav = () => {
                         </div>
                      )}
                   </div>
-               </Link>
+               </button>
+
                <div className=" ">
                   <img src="/foto.jpg" alt="fot" className="w-10 h-10 rounded-full " />
                </div>
