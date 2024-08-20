@@ -1,9 +1,8 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { HiOutlineShoppingCart } from "react-icons/hi";
-import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart as removeProductFromCart } from "../store/cartSlice";
+
+import { useDispatch } from "react-redux";
+import { addToCart, removeFromCart as removeProductFromCart } from "../store/cartSlice";
 
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
@@ -20,10 +19,6 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
 
    const removeFromCart = () => {
       dispatch(removeProductFromCart(searchShoes.id));
-      closeModel();
-   };
-   
-   const addToCart = () => {
       closeModel();
    };
 
@@ -71,7 +66,7 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                                     src={hoveredImage || currentImage}
                                     alt="image"
                                     width={400}
-                                    height={400}                                   
+                                    height={400}
                                     className="w-full h-full object-cover"
                                  />
                               </div>
@@ -91,12 +86,12 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                               </div>
                            </div>
 
-                           <div className="w-full flex flex-col">
-                              <div className="flex flex-col gap-4 md:flex-col justify-between">
+                           <div className="w-full flex flex-col md:gap-2">
+                              <div className="flex flex-col gap-4 md:flex-col md:h-[292px] justify-between">
                                  <div className=" flex justify-center  text-base md:text-lg font-semibold text-black/[0.8]">
                                     {searchShoes.name}
                                  </div>
-                                 <div className="stack text-base md:text-lg font-normal max-h-32 md:max-h-64 overflow-y-auto text-black/[0.5]">
+                                 <div className="stack text-base md:text-lg font-normal max-h-52 md:h-56 overflow-y-auto text-black/[0.5]">
                                     {searchShoes.description}
                                  </div>
 
@@ -105,9 +100,9 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                                  </div>
                               </div>
 
-                              <div className="flex items-center justify-between mt-4">
-                                 <div className="flex items-center gap-2 md:gap-10 text-black/[0.5] text-sm md:text-md">
-                                    <div className="flex items-center gap-1">
+                              <div className="flex items-center justify-between mt-4 md:mt-0">
+                                 <div className="flex items-center gap-2  text-black/[0.5] text-sm md:text-md">
+                                    <div className="flex items-center">
                                        <div className="font-semibold">Quantity: {Quantity}</div>
                                     </div>
                                  </div>
@@ -117,9 +112,12 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                                  /> */}
                               </div>
 
-                              <div className="flex gap-4 my-5 xl:w-[100%] xl:items-center md:gap-8">
+                              <div className="flex gap-4  md:mt-3 xl:w-[100%] xl:items-center md:gap-8 bottom-0 static">
                                  <QuantityControl quantity={Quantity} setQuantity={setQuantity} />
-                                 <AddToCartButton onAdd={addToCart} />
+                                 <AddToCartButton
+                                    onAdd={dispatch(addToCart({ ...searchShoes, quantity: Quantity }))} 
+                                   
+                                 />
                               </div>
                            </div>
                         </div>
