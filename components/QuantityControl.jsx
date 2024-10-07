@@ -19,5 +19,4 @@ const QuantityControl = ({ quantity, setQuantity }) => {
     </div>
   );
 };
-
 export default QuantityControl;

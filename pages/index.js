@@ -1,6 +1,5 @@
 import BannerHero from "../components/BannerHero";
 import ProductCard from "../components/ProductCard";
-import ShoppingCard from "../components/ShoppingCard";
 import Wrapper from "../components/Wrapper";
 
 import data from "../utils/data";

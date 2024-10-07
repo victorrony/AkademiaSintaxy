@@ -24,7 +24,7 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
 
    return (
       <Transition appear show={isOpen} as={Fragment}>
-         <Dialog as="div" className="relative z-10" onClose={closeModel}>
+         <Dialog as="div" className=" z-10 sticky top-0" onClose={closeModel}>
             <Transition.Child
                as={Fragment}
                enter="ease-out duration-300"
@@ -34,11 +34,11 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                leaveFrom="opacity-100"
                leaveTo="opacity-0"
             >
-               <div className="fixed inset-0 bg-black bg-opacity-25" />
+               <div className=" inset-0 bg-black bg-opacity-25 sticky top-0" />
             </Transition.Child>
 
-            <div className="fixed inset-0 overflow-y-auto md:items-center  ">
-               <div className="flex flex-col max-h-max items-center w-[450px] justify-center m-auto bg-white dark:bg-black-900  px-4 fixed inset-[-15px] md:w-[800px] ">
+            <div className="sticky top-0 inset-0 overflow-y-auto md:items-center  ">
+               <div className="flex flex-col items-center w-[380px] h-[490px] justify-center m-auto bg-white border-2 border-black dark:bg-black-900  px-4 fixed inset-[-15px] md:w-[800px] ">
                   <Transition.Child
                      as={Fragment}
                      enter="ease-out duration-300"
@@ -49,7 +49,7 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                      leaveTo="opacity-0 scale-95"
                   >
                      <Dialog.Panel className="relative transform  ">
-                        <div className="relative flex flex-row justify-end pt-3 md:right-0">
+                        <div className="sticky top-0 flex flex-row justify-end pt- md:right-0">
                            <button
                               type="button"
                               className="bg-blue-500 hover:bg-blue-700  p-2 rounded-full"
@@ -60,8 +60,12 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                         </div>
 
                         <div className="flex flex-col  md:gap-5 md:flex-row border-b">
-                           <div className="flex flex-col justify-center">
-                              <div className="w-[420px] h-[300px] md:h-[400px]">
+                           <div className="flex flex-col justify-center ">
+                              <div
+                                 className={`w-[350px] h-[300px] ${
+                                    searchShoes.thumbnails ? "md:h-[250px]" : "md:h-[400px]"
+                                 }`}
+                              >
                                  <Image
                                     src={hoveredImage || currentImage}
                                     alt="image"
@@ -86,12 +90,12 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                               </div>
                            </div>
 
-                           <div className="w-full flex flex-col md:gap-2">
+                           <div className="w-full flex flex-col md:gap-2 ">
                               <div className="flex flex-col gap-4 md:flex-col md:h-[292px] justify-between">
                                  <div className=" flex justify-center  text-base md:text-lg font-semibold text-black/[0.8]">
                                     {searchShoes.name}
                                  </div>
-                                 <div className="stack text-base md:text-lg font-normal max-h-52 md:h-56 overflow-y-auto text-black/[0.5]">
+                                 <div className="stack text-base md:text-lg font-normal max-h-48 md:h-48 overflow-y-auto text-black/[0.5]">
                                     {searchShoes.description}
                                  </div>
 
@@ -106,17 +110,21 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                                        <div className="font-semibold">Quantity: {Quantity}</div>
                                     </div>
                                  </div>
-                                 {/* <RemoveButton
-                                    onRemove={() => removeFromCart(searchShoes.id)}
-                                    className="cursor-pointer text-black/[0.5] text-[16px] md:text-[20px]"
-                                 /> */}
                               </div>
 
-                              <div className="flex gap-4  md:mt-3 xl:w-[100%] xl:items-center md:gap-8 bottom-0 static">
+                              <div className="flex gap-4 mt-4 xl:w-[100%] xl:items-center md:gap-8 bottom-0 static">
                                  <QuantityControl quantity={Quantity} setQuantity={setQuantity} />
                                  <AddToCartButton
-                                    onAdd={dispatch(addToCart({ ...searchShoes, quantity: Quantity }))} 
-                                   
+                                    onAdd={() => {
+                                       if (Quantity > 0) {
+                                          dispatch(addToCart(searchShoes, Quantity));
+                                          closeModel();
+                                       } else {
+                                          alert(
+                                             "Por favor, selecione uma quantidade maior que zero para adicionar ao carrinho."
+                                          );
+                                       }
+                                    }}
                                  />
                               </div>
                            </div>

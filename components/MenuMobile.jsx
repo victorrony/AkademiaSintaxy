@@ -47,7 +47,7 @@ const MenuMobile = ({ showCatMenu, setShowCatMenu, setMobileMenu, categories }) 
                                           setMobileMenu(false);
                                        }}
                                     >
-                                       <li className="py-4 px-8 border-t  flex justify-between">
+                                       <li className="py-4 px-5 border-t  flex justify-between">
                                           {subMenu.name}
                                           <span className=""></span>
                                        </li>
