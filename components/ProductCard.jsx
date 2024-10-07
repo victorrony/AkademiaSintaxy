@@ -11,21 +11,20 @@ const ProductCard = ({ data }) => {
 
    return (
       <div className="bg-white shadow rounded overflow-hidden hover:scale-105 transition-all duration-200 ease-in-out ">
-         <div className="">
+         
             <CartItem
                isOpen={isOpen}
                closeModel={() => setIsOpen(false)}
                searchShoes={data}
                className="flex justify-center items-center z-20"
             />
-         </div>
+         
          <button onClick={() => setIsOpen(true)} className="w-full">
-            <div className="bg-white shadow rounded overflow-hidden hover:scale-105 transition-all duration-200 ease-in-out "></div>
             <div className="relative">
                <div className="w-full h-72 md:h-80 group-hover:opacity-75  "></div>
                <Image
                   src={data.image}
-                  alt={data.name}
+                  alt={data.name}                 
                   layout="fill"
                   objectFit="cover"
                   className="w-full h-full object-cover"
