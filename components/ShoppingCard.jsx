@@ -9,7 +9,7 @@ const ShoppingCard = ({ onClose }) => {
    const { items } = useSelector((state) => state.cart);
 
    return (
-      <div className="w-[380px] md:w-[500px] bg-blue-200 fixed shadow rounded-xl top-9 right-16 lg:right-24 lg:top-14 xl:top-14 xl:right-32 p-2 border-spacing-2 z-50 flex flex-col md:py-10">
+      <div className="w-[380px] md:w-[500px] bg-blue-200 fixed shadow rounded-xl top-9 right-16 lg:right-24 lg:top-14 xl:top-14 xl:right-32 2xl:right-96 p-2 border-spacing-2 z-50 flex flex-col md:py-10">
          <Wrapper>
             <button
                type="button"
