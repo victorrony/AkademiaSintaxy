@@ -24,7 +24,7 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
 
    return (
       <Transition appear show={isOpen} as={Fragment}>
-         <Dialog as="div" className=" z-10 sticky top-0" onClose={closeModel}>
+         <Dialog as="div" className=" relative z-" onClose={closeModel}>
             <Transition.Child
                as={Fragment}
                enter="ease-out duration-300"
@@ -34,11 +34,11 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                leaveFrom="opacity-100"
                leaveTo="opacity-0"
             >
-               <div className=" inset-0 bg-black bg-opacity-25 sticky top-0" />
+               <div className=" fixed inset-0 bg-black bg-opacity-25" />
             </Transition.Child>
 
-            <div className="sticky top-0 inset-0 overflow-y-auto md:items-center  ">
-               <div className="flex flex-col items-center w-[380px] h-[490px] justify-center m-auto bg-white border-2 border-black dark:bg-black-900  px-4 fixed inset-[-15px] md:w-[800px] ">
+            <div className="fixed inset-0 overflow-y-auto">
+               <div className="flex min-h-full items-center justify-center p-4 text-center">
                   <Transition.Child
                      as={Fragment}
                      enter="ease-out duration-300"
@@ -48,8 +48,8 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                      leaveFrom="opacity-100 scale-100"
                      leaveTo="opacity-0 scale-95"
                   >
-                     <Dialog.Panel className="relative transform  ">
-                        <div className="sticky top-0 flex flex-row justify-end pt- md:right-0">
+                     <Dialog.Panel className="relative w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                        <div className="flex justify-end">
                            <button
                               type="button"
                               className="bg-blue-500 hover:bg-blue-700  p-2 rounded-full"
@@ -75,55 +75,50 @@ export const CartItem = ({ searchShoes, isOpen, closeModel }) => {
                                  />
                               </div>
                               <div className="flex flex-wrap gap-2  items-center mt-2">
-                                 {searchShoes.thumbnails?.map((thumbnail) => (
-                                    <Image
-                                       key={thumbnail.id}
-                                       src={thumbnail.image}
-                                       alt="thumbnail"
-                                       width={400}
-                                       height={400}
-                                       className="w-[63px] h-14 object-cover mb-6"
-                                       onMouseEnter={() => setHoveredImage(thumbnail.image)} // Atualiza a imagem principal
-                                       onMouseLeave={() => setHoveredImage(null)} // Volta à imagem original
-                                    />
-                                 ))}
+                                 {searchShoes.thumbnails?.map(
+                                    (thumbnail) => (
+                                       console.log("searchShoes", searchShoes),
+                                       (
+                                          <Image
+                                             key={thumbnail.id}
+                                             src={thumbnail.image}
+                                             alt="thumbnail"
+                                             width={400}
+                                             height={400}
+                                             className="w-[63px] h-14 object-cover mb-6"
+                                             onMouseEnter={() => setHoveredImage(thumbnail.image)} // Atualiza a imagem principal
+                                             onMouseLeave={() => setHoveredImage(null)} // Volta à imagem original
+                                          />
+                                       )
+                                    )
+                                 )}
                               </div>
                            </div>
-
                            <div className="w-full flex flex-col md:gap-2 ">
                               <div className="flex flex-col gap-4 md:flex-col md:h-[292px] justify-between">
                                  <div className=" flex justify-center  text-base md:text-lg font-semibold text-black/[0.8]">
                                     {searchShoes.name}
                                  </div>
-                                 <div className="stack text-base md:text-lg font-normal max-h-48 md:h-48 overflow-y-auto text-black/[0.5]">
+                                 <div className=" text-sm md:text-md text-black/[0.5] overflow-y-auto">
                                     {searchShoes.description}
                                  </div>
 
-                                 <div className="text-sm md:text-md font-bold text-black/[0.5] mt-2">
-                                    MRP : &#8377;{searchShoes.price * Quantity}
+                                 <div className="text-sm md:text-md font-bold text-orange-500 mt-2">
+                                    MRP : &#8377;{searchShoes.price}
                                  </div>
                               </div>
 
-                              <div className="flex items-center justify-between mt-4 md:mt-0">
-                                 <div className="flex items-center gap-2  text-black/[0.5] text-sm md:text-md">
-                                    <div className="flex items-center">
-                                       <div className="font-semibold">Quantity: {Quantity}</div>
-                                    </div>
+                              <div className="flex items-center gap-2  text-black/[0.5] text-sm md:text-md">
+                                 <div className="flex items-center font-bold text-orange-500">
+                                   Color : {searchShoes.color}
                                  </div>
                               </div>
 
                               <div className="flex gap-4 mt-4 xl:w-[100%] xl:items-center md:gap-8 bottom-0 static">
-                                 <QuantityControl quantity={Quantity} setQuantity={setQuantity} />
                                  <AddToCartButton
                                     onAdd={() => {
-                                       if (Quantity > 0) {
-                                          dispatch(addToCart(searchShoes, Quantity));
-                                          closeModel();
-                                       } else {
-                                          alert(
-                                             "Por favor, selecione uma quantidade maior que zero para adicionar ao carrinho."
-                                          );
-                                       }
+                                       dispatch(addToCart(searchShoes, Quantity));
+                                       closeModel();
                                     }}
                                  />
                               </div>

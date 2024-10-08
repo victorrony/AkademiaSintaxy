@@ -1,47 +1,68 @@
 // components/ShoppingCart.js
 
-import { removeFromCart } from "../store/cartSlice";
+import { removeFromCart, updateCart } from "../store/cartSlice";
 import Image from "next/image";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 
 export default function ShoppingCartItem({ data }) {
-   // const p = data.attributes;
-
    const dispatch = useDispatch();
+   const [quantity, setQuantity] = useState(data.quantity);
 
-   console.log(data);
-
-   const updateCartItem = (e, key) => {
-      let payload = {
-         key,
-         val: key === "quantity" ? parseInt(e.target.value) : e.target.value,
+   const item = useMemo(
+      () => ({
          id: data.id,
-      };
-      dispatch(updateCart(payload));
+         name: data.name,
+         image: data.image,
+         price: data.price,
+         quantity: quantity,
+      }),
+      [data, quantity]
+   );
+
+   const handleChange = (key) => (e) => {
+      const setValue = e.target.value;
+      if (key === "quantity") {
+         const newQuantity = parseInt(setValue);
+         setQuantity(newQuantity); // Atualiza o estado local com a nova quantidade
+         dispatch(
+            updateCart({
+               ...item,
+               [key]: newQuantity, // Atualiza o item no Redux
+            })
+         );
+      }
    };
 
+   const totalPrice = useMemo(() => item.price * item.quantity, [item.price, item.quantity]);
+
    return (
-      <div className="flex py-5 gap-3  border-b">
-         <div className="shrink-0 aspect-square w-[80px] md:w-[120px]">
-            <Image src={data.image} alt={data.name} width={120} height={120} />
-         </div>
-
-         <div className="w-full flex flex-col">
-            <div className="flex flex-col justify-between">
-               <div className="text-sm md:text-md font-bold text-black/[0.8]">{data.name}</div>
-               <div className="text-sm md:text-md font-bold text-black/[0.8] mt-2">Price : &#8377;{data.price * data.quantity}</div>
+      <div className="flex items-center justify-between w-full p-2 gap-4 border-b bg-slate-100 border-gray-300">
+         <div className="flex items-center space-x-4">
+            <div className="w-20 h-20">
+               <Image src={item.image} alt={item.name} width={80} height={80} />
             </div>
-
-            {/* <div className="text-md font-medium text-black/[0.5] hidden md:block">{""}</div> */}
-
-            <div className="flex items-center justify-between mt-2">
-               <div className="font-bold text-black/[0.8]">Quantity: {data.quantity}</div>
-               <RiDeleteBin6Line
-                  onClick={() => dispatch(removeFromCart({id:data.id}))}
-                  className="cursor-pointer text-black/[0.8] hover:text-black text-[16px] md:text-[20px]"
+         </div>
+         <div className="flex flex-col items-start gap-3 w-full">
+            <div className="w-full">
+               <h3 className="text-lg truncate w-48 md:w-72">{item.name}</h3>
+            </div>
+            <div className="flex w-full justify-between space-x-4">
+               <p className="text-sm font-semibold">${totalPrice}</p>
+               <input
+                  type="number"
+                  min={1}
+                  max={100}
+                  defaultValue={item.quantity}
+                  onChange={handleChange("quantity")}
                />
+               <button
+                  onClick={() => dispatch(removeFromCart(item))}
+                  className="flex items-end justify-end text-red-500 hover:text-red-700"
+               >
+                  <RiDeleteBin6Line />
+               </button>{" "}
             </div>
          </div>
       </div>
